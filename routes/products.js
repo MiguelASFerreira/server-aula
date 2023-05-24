@@ -3,8 +3,7 @@ const { createProduct, getAllProducts, getIdProduct, updateProduct, deleteProduc
 const router = express.Router()
 
 router.get("/products", async (req, res) => {
-    const moreThan = req.query.more_than ? Number(req.query.more_than) : 0;
-    const products = await getAllProducts(moreThan);
+    const products = await getAllProducts();
     res.json({
         products
     })
@@ -17,10 +16,7 @@ router.get("/products/:id", async (req, res) => {
 })
 
 router.post("/products", async (req, res) => {
-    const newProduct = {
-        name: req.body.name,
-        price: req.body.price
-    }
+    const newProduct = req.body;
 
     const create = await createProduct(newProduct)
     res.json({

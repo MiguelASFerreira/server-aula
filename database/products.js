@@ -1,13 +1,7 @@
 const prisma = require('./prisma')
 
 const getAllProducts = (moreThan) => {
-    return prisma.products.findMany({
-        where: {
-            price: {
-                gt: moreThan
-            }
-        }
-    });
+    return prisma.products.findMany();
 }
 
 const getIdProduct = (id) => {
