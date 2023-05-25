@@ -24,6 +24,16 @@ const createProduct = (product) => {
     })
 }
 
+const buyProductByUser = (userId, productId, quantity) => {
+    return prisma.boughtBy.create({
+        data: {
+            usersId: userId,
+            productsId: productId,
+            quantity: quantity
+        }
+    });
+}
+
 const updateProduct = (id, product) => {
     return prisma.products.update({
         where: {
@@ -48,4 +58,5 @@ module.exports = {
     createProduct, 
     updateProduct,
     deleteProduct,
+    buyProductByUser,
 }
