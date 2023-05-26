@@ -24,4 +24,16 @@ model Users {
   name     String
   email    String @unique
   password String
+  BoughtMany BoughtBy[]
+}
+
+model BoughtBy {
+  id       Int @id @default(autoincrement())
+  quantity Int
+
+  user    Users    @relation(fields: [usersId], references: [id])
+  product Products @relation(fields: [productsId], references: [id])
+
+  productsId Int
+  usersId    Int
 }
