@@ -16,7 +16,7 @@ const ProductSchema = z.object({
 })
 
 
-router.get("/products", auth, async (req, res) => {
+router.get("/products", async (req, res) => {
     const moreThan = req.query.more_than ? Number(req.query.more_than) : 0;
     const products = await getAllProducts(moreThan);
     res.json({
@@ -30,29 +30,15 @@ router.get("/products/:id", auth, async (req, res) => {
     res.json({product})
 })
 
-router.post("/products", auth, async (req, res) => {
-    try {
-        const newProduct = ProductSchema.parse(req.body)
-        const create = await createProduct(newProduct)
-        res.json({
-            product: create
-        })
-    } catch (error) {
-        if (error instanceof z.ZodError) return res.status(422).json({ message: error.errors})
-        return res.status(500).json({
-            message: "Server Error"
-        })
+router.post("/products", async (req, res) => {
+    const newProduct = {
+        name: req.body.name,
+        price: req.body.price
     }
-})
 
-router.post("/products/buy", auth, async (req, res) => {
-    const user = req.user;
-    const productAndQuantity = req.body.products;
-    for (let item of productAndQuantity) {
-        await buyProductByUser(user.userId, item.id, item.quantity)
-    }
-    res.status(201).json({
-        sucess: true
+    const create = await createProduct(newProduct)
+    res.json({
+        product: create
     })
 })
 
